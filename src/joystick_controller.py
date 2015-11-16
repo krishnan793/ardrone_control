@@ -24,6 +24,9 @@ ButtonEmergency = 0
 ButtonLand      = 1
 ButtonTakeoff   = 2
 
+#define the default mapping to change the camera feed
+ButtonChangeCam = 3
+
 # define the default mapping between joystick axes and their corresponding directions
 AxisRoll        = 0
 AxisPitch       = 1
@@ -47,6 +50,9 @@ def ReceiveJoystickMessage(data):
 	elif data.buttons[ButtonTakeoff]==1:
 		rospy.loginfo("Takeoff Button Pressed")
 		controller.SendTakeoff()
+	elif data.buttons[ButtonChangeCam]==1:
+		rospy.loginfo("Camera Changed")
+		controller.ChangeCam()
 	else:
 		controller.SetCommand(data.axes[AxisRoll]/ScaleRoll,data.axes[AxisPitch]/ScalePitch,data.axes[AxisYaw]/ScaleYaw,data.axes[AxisZ]/ScaleZ)
 
@@ -61,6 +67,7 @@ if __name__=='__main__':
 	ButtonEmergency = int (   rospy.get_param("~ButtonEmergency",ButtonEmergency) )
 	ButtonLand      = int (   rospy.get_param("~ButtonLand",ButtonLand) )
 	ButtonTakeoff   = int (   rospy.get_param("~ButtonTakeoff",ButtonTakeoff) )
+	ButtonChangeCam = int (   rospy.get_param("~ButtonChangeCam",ButtonChangeCam) )
 	AxisRoll        = int (   rospy.get_param("~AxisRoll",AxisRoll) )
 	AxisPitch       = int (   rospy.get_param("~AxisPitch",AxisPitch) )
 	AxisYaw         = int (   rospy.get_param("~AxisYaw",AxisYaw) )

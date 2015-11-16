@@ -36,7 +36,11 @@ class BasicDroneController(object):
 		self.pubLand    = rospy.Publisher('/ardrone/land',Empty)
 		self.pubTakeoff = rospy.Publisher('/ardrone/takeoff',Empty)
 		self.pubReset   = rospy.Publisher('/ardrone/reset',Empty)
-		
+
+		# Allow controller to toggle camera feed
+		rospy.wait_for_service('/ardrone/togglecam')
+		self.callChangeCam = rospy.ServiceProxy('/ardrone/togglecam',std_srvs.srv.Empty)
+				
 		# Allow the controller to publish to the /cmd_vel topic and thus control the drone
 		self.pubCommand = rospy.Publisher('/cmd_vel',Twist)
 
@@ -65,6 +69,9 @@ class BasicDroneController(object):
 	def SendEmergency(self):
 		# Send an emergency (or reset) message to the ardrone driver
 		self.pubReset.publish(Empty())
+
+	def ChangeCam(self):
+		self.callChangeCam()
 
 	def SetCommand(self,roll=0,pitch=0,yaw_velocity=0,z_velocity=0):
 		# Called by the main program to set the current command
