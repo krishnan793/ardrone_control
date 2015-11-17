@@ -1,5 +1,5 @@
 <package>
-	<name>ardrone_tutorials</name>
+	<name>ardrone_control</name>
 	<version>1.0.0</version>
 	<description>
 		Controllers developed for the AR.Drone with ROS
