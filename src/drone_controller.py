@@ -47,11 +47,14 @@ class BasicDroneController(object):
 
 		# Setup regular publishing of control packets
 		self.command = Twist()
-		self.commandTimer = rospy.Timer(rospy.Duration(COMMAND_PERIOD/1000.0),self.SendCommand)
+		self.commandTimer = None
 
 		# Land the drone if we are shutting down
 		rospy.on_shutdown(self.SendLand)
-
+	def StartSendCommand(self):
+		# To initialize the package. If it is automatically initialized two independent programs trying to control the same drone will create issues.
+		self.commandTimer = rospy.Timer(rospy.Duration(COMMAND_PERIOD/1000.0),self.SendCommand)
+		
 	def ReceiveNavdata(self,navdata):
 		# Although there is a lot of data in this packet, we're only interested in the state at the moment	
 		self.status = navdata.state
@@ -86,3 +89,6 @@ class BasicDroneController(object):
 		if self.status == DroneStatus.Flying or self.status == DroneStatus.GotoHover or self.status == DroneStatus.Hovering:
 			self.pubCommand.publish(self.command)
 
+	def StopSendCommand(self):
+		# Stop sending commands at a particular frequency.
+		self.commandTimer.shutdown()
