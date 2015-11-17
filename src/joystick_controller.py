@@ -6,7 +6,7 @@
 # This controller implements the base DroneVideoDisplay class, the DroneController class and subscribes to joystick messages
 
 # Import the ROS libraries, and load the manifest file which through <depend package=... /> will give us access to the project dependencies
-import roslib; roslib.load_manifest('ardrone_tutorials')
+import roslib; roslib.load_manifest('ardrone_control')
 import rospy
 
 # Load the DroneController class, which handles interactions with the drone, and the DroneVideoDisplay class, which handles video display
@@ -81,7 +81,8 @@ if __name__=='__main__':
 	app = QtGui.QApplication(sys.argv)
 	display = DroneVideoDisplay()
 	controller = BasicDroneController()
-
+	controller.StartSendCommand()
+	
 	# subscribe to the /joy topic and handle messages of type Joy with the function ReceiveJoystickMessage
 	subJoystick = rospy.Subscriber('/joy', Joy, ReceiveJoystickMessage)
 	

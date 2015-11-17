@@ -6,7 +6,7 @@
 # This controller extends the base DroneVideoDisplay class, adding a keypress handler to enable keyboard control of the drone
 
 # Import the ROS libraries, and load the manifest file which through <depend package=... /> will give us access to the project dependencies
-import roslib; roslib.load_manifest('ardrone_tutorials')
+import roslib; roslib.load_manifest('ardrone_control')
 import rospy
 
 # Load the DroneController class, which handles interactions with the drone, and the DroneVideoDisplay class, which handles video display
@@ -122,6 +122,7 @@ if __name__=='__main__':
 	# Now we construct our Qt Application and associated controllers and windows
 	app = QtGui.QApplication(sys.argv)
 	controller = BasicDroneController()
+	controller.StartSendCommand()
 	display = KeyboardController()
 
 	display.show()
