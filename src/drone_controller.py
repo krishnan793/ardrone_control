@@ -34,16 +34,16 @@ class BasicDroneController(object):
 		self.subNavdata = rospy.Subscriber('/ardrone/navdata',Navdata,self.ReceiveNavdata) 
 		
 		# Allow the controller to publish to the /ardrone/takeoff, land and reset topics
-		self.pubLand    = rospy.Publisher('/ardrone/land',Empty)
-		self.pubTakeoff = rospy.Publisher('/ardrone/takeoff',Empty)
-		self.pubReset   = rospy.Publisher('/ardrone/reset',Empty)
+		self.pubLand    = rospy.Publisher('/ardrone/land',Empty,queue_size=10)
+		self.pubTakeoff = rospy.Publisher('/ardrone/takeoff',Empty,queue_size=10)
+		self.pubReset   = rospy.Publisher('/ardrone/reset',Empty,queue_size=10)
 
 		# Allow controller to toggle camera feed
 		rospy.wait_for_service('/ardrone/togglecam')
 		self.callChangeCam = rospy.ServiceProxy('/ardrone/togglecam',std_srvs.srv.Empty)
 				
 		# Allow the controller to publish to the /cmd_vel topic and thus control the drone
-		self.pubCommand = rospy.Publisher('/cmd_vel',Twist)
+		self.pubCommand = rospy.Publisher('/cmd_vel',Twist,queue_size=10)
 
 		# Setup regular publishing of control packets
 		self.command = Twist()
