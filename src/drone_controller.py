@@ -15,6 +15,7 @@ import rospy
 from geometry_msgs.msg import Twist  	 # for sending commands to the drone
 from std_msgs.msg import Empty       	 # for land/takeoff/emergency
 from ardrone_autonomy.msg import Navdata # for receiving navdata feedback
+import std_srvs.srv
 
 # An enumeration of Drone Statuses
 from drone_status import DroneStatus
