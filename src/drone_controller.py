@@ -50,7 +50,7 @@ class BasicDroneController(object):
 		self.commandTimer = None
 
 		# Land the drone if we are shutting down
-		rospy.on_shutdown(self.SendLand)
+		#rospy.on_shutdown(self.SendLand)
 	def StartSendCommand(self):
 		# To initialize the package. If it is automatically initialized two independent programs trying to control the same drone will create issues.
 		self.commandTimer = rospy.Timer(rospy.Duration(COMMAND_PERIOD/1000.0),self.SendCommand)
