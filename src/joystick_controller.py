@@ -26,6 +26,8 @@ ButtonTakeoff   = 2
 
 #define the default mapping to change the camera feed
 ButtonChangeCam = 3
+ButtonStartSendCommand = 7
+ButtonStopSendCommand = 6
 
 # define the default mapping between joystick axes and their corresponding directions
 AxisRoll        = 0
@@ -53,6 +55,12 @@ def ReceiveJoystickMessage(data):
 	elif data.buttons[ButtonChangeCam]==1:
 		rospy.loginfo("Camera Changed")
 		controller.ChangeCam()
+	elif data.buttons[ButtonStartSendCommand]==1:
+		rospy.loginfo("StartSendingCommand")
+		controller.StartSendCommand()
+	elif data.buttons[ButtonStopSendCommand]==1:
+		rospy.loginfo("StopSendingCommand")
+		controller.StopSendCommand()
 	else:
 		controller.SetCommand(data.axes[AxisRoll]/ScaleRoll,data.axes[AxisPitch]/ScalePitch,data.axes[AxisYaw]/ScaleYaw,data.axes[AxisZ]/ScaleZ)
 
@@ -81,7 +89,7 @@ if __name__=='__main__':
 	app = QtGui.QApplication(sys.argv)
 	display = DroneVideoDisplay()
 	controller = BasicDroneController()
-	controller.StartSendCommand()
+	#controller.StartSendCommand()
 	
 	# subscribe to the /joy topic and handle messages of type Joy with the function ReceiveJoystickMessage
 	subJoystick = rospy.Subscriber('/joy', Joy, ReceiveJoystickMessage)
