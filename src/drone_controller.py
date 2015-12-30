@@ -53,7 +53,8 @@ class BasicDroneController(object):
 		#rospy.on_shutdown(self.SendLand)
 	def StartSendCommand(self):
 		# To initialize the package. If it is automatically initialized two independent programs trying to control the same drone will create issues.
-		self.commandTimer = rospy.Timer(rospy.Duration(COMMAND_PERIOD/1000.0),self.SendCommand)
+		if(self.commandTimer == None):
+			self.commandTimer = rospy.Timer(rospy.Duration(COMMAND_PERIOD/1000.0),self.SendCommand)
 		
 	def ReceiveNavdata(self,navdata):
 		# Although there is a lot of data in this packet, we're only interested in the state at the moment	
@@ -91,4 +92,6 @@ class BasicDroneController(object):
 
 	def StopSendCommand(self):
 		# Stop sending commands at a particular frequency.
-		self.commandTimer.shutdown()
+		if(self.commandTimer != None):
+			self.commandTimer.shutdown()
+			self.commandTimer = None
